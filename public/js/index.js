@@ -11,7 +11,7 @@ socket.on('disconnect', function () {
 socket.on('newMessage', function (message) {
     console.log('newMessage', message);
     var li = `<li>${message.from}: ${message.text}</li>`;
-    $('#messages').append(li);
+    jQuery('#messages').append(li);
 });
 
 // socket.emit('createMessage', {
@@ -21,12 +21,12 @@ socket.on('newMessage', function (message) {
 //     console.log('Got it!', data);
 // });
 
-$('#message-form').on('submit', function (e) {
+jQuery('#message-form').on('submit', function (e) {
     e.preventDefault();
 
     socket.emit('createMessage', {
         from: 'Nikunj',
-        text: $('[name=message]').val()
+        text: jQuery('[name=message]').val()
     }, function () {
 
     });
