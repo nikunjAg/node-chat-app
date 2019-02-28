@@ -19,13 +19,13 @@ io.on('connection', (socket) => {
 
     socket.emit('newMessage', generateMessage('Admin', 'Welcome! You have joined the chat room'));
 
-    socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user have joined'));
+    socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
-    socket.on('createMessage', (message) => {
+    socket.on('createMessage', (message, callback) => {
         console.log('createMessage', message);
         // This get send to all the user including the sender
         io.emit('newMessage', generateMessage(message.from, message.text));
-
+        callback('This is from the server');
         // Broadcast send the message to all other user except the sender
         // socket.broadcast.emit('newMessage', {
         //     from: message.from,
