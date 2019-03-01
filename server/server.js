@@ -26,7 +26,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createMessage', (message, callback) => {
-        console.log('createMessage', message);
+        // console.log('createMessage', message);
         // This get send to all the user including the sender
         io.emit('newMessage', generateMessage(message.from, message.text));
         callback();
