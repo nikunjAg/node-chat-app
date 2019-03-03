@@ -21,7 +21,9 @@ io.on('connection', (socket) => {
     console.log('New user connected');
 
     socket.on('createLocation', (coords) => {
-        io.emit('newLocationMessage', generateLocationMessage(users.getUser(socket.id).name, coords.latitude, coords.longitude));
+        var user = users.getUser(socket.id);
+        if (user)
+            io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
     });
 
     socket.on('join', (param, callback) => {
@@ -44,7 +46,11 @@ io.on('connection', (socket) => {
     });
 
     socket.on('createMessage', (message, callback) => {
-        io.emit('newMessage', generateMessage(users.getUser(socket.id).name, message.text));
+        var user = users.getUser(socket.id);
+
+        if (user && isRealString(message.text)) {
+            io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+        }
         callback();
     });
 
